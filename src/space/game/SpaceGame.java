@@ -2,7 +2,9 @@
 package space.game;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
@@ -11,6 +13,7 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class SpaceGame extends Canvas implements Runnable{
     public static final  int WIDTH = 420;
@@ -25,12 +28,15 @@ public class SpaceGame extends Canvas implements Runnable{
     protected static Controller c;
      public int enemyCount=1;
     public int enemyKilled = 0;
+    public static int HEALTH = 100;
+    public static int SCORE = 0;
     public LinkedList<BulletEntity>bulletList;
     public LinkedList<EnemyEntity>enemyList;
     private Menu menu =new Menu();
     public static enum STATE{
         GAME,
-        MENU
+        MENU,
+        END
     };
     public static STATE state = STATE.MENU;
 
@@ -155,10 +161,38 @@ public class SpaceGame extends Canvas implements Runnable{
          {
             p.render(g);
             c.render(g);
+             Font font = new Font("arial",Font.BOLD,30);
+            g.setFont(font);
+            g.setColor(Color.WHITE);
+            g.drawString("HEALTH: "+HEALTH+"", 10,25);
+             g.drawString("SCORE: "+SCORE+"", 620,25);
+             if(HEALTH<=0)
+             {
+                 state = STATE.END;
+             }
+         }
+         else if(state==STATE.MENU)
+         {
+             menu.render(g);
          }
          else
          {
-             menu.render(g);
+             String msg = "Score = "+SCORE; 
+        
+         String[] options = new String[] {"Play Again","Exit"};
+    int response = JOptionPane.showOptionDialog(null, "Message", "Title",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+        null, options, options[0]);
+    if(response==0)
+    {
+        HEALTH=100;
+        SCORE=0;
+        enemyCount=1;
+        enemyKilled=0;
+        state = STATE.GAME;
+    }
+    else
+        System.exit(1);
+
          }
         
         g.dispose();

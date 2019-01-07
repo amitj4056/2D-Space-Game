@@ -3,7 +3,7 @@ package space.game;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public class Player extends GameObject {
+public class Player extends GameObject implements BulletEntity{
    
     private BufferedImage player;
     private int velX,velY;
@@ -24,6 +24,19 @@ public class Player extends GameObject {
            y =0 ;
        if(y>=590)
            y = 590;
+       if(Physics.collision(this,game.enemyList,SpaceGame.c))
+       {
+           SpaceGame.HEALTH  -= 10;
+           game.enemyKilled++;
+             if(game.enemyCount==game.enemyKilled)
+              {
+                  game.enemyCount +=2;
+                  game.enemyKilled=0;
+                  if(game.enemyCount>=7)
+                      game.enemyCount = 6;
+                  SpaceGame.c.createEnemy(game.enemyCount);
+              }
+       }
     }
     public void render(Graphics g)
     {

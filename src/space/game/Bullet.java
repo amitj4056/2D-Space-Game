@@ -32,6 +32,7 @@ public class Bullet extends GameObject implements BulletEntity {
                   SpaceGame.c.createEnemy(game.enemyCount);
               }
               System.out.println("COLLISION");
+              SpaceGame.SCORE +=1;
           }
       }
        
