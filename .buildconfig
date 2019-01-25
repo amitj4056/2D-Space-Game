@@ -1,0 +1,10 @@
+[default]
+name=Default
+runtime=host
+config-opts=
+run-opts=
+prefix=/home/suraj/.cache/gnome-builder/install/2D-Space-Game/host
+app-id=
+postbuild=
+prebuild=
+default=true
